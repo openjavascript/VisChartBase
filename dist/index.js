@@ -43,10 +43,12 @@ var VisChartBase = function () {
         key: 'getLabel',
         value: function getLabel(item, key) {
             var r = item.percent + '%';
-
-            if (_jsonUtilsx2.default.jsonInData(this, 'data.label.formatter')) {
-                //console.log( 'formatter', key, this.data.label.formatter );
-                r = this.data.label.formatter;
+            if (_jsonUtilsx2.default.jsonInData(this, 'srcData.label.formatter')) {
+                if (typeof this.srcData.label.formatter == 'function') {
+                    r = this.srcData.label.formatter(item, this.total);
+                } else {
+                    r = this.srcData.label.formatter;
+                }
 
                 r = r.replace(/\{a\}/g, this.data.name || '');
                 r = r.replace(/\{b\}/g, item.name || '');

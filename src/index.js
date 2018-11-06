@@ -32,10 +32,12 @@ export default class VisChartBase {
     */
     getLabel( item, key ){
         let r = `${item.percent}%`;
-
-        if( ju.jsonInData( this, 'data.label.formatter' ) ){
-            //console.log( 'formatter', key, this.data.label.formatter );
-            r = this.data.label.formatter;
+        if( ju.jsonInData( this, 'srcData.label.formatter' ) ){
+            if( typeof this.srcData.label.formatter == 'function' ){
+                r = this.srcData.label.formatter( item, this.total );
+            }else{
+                r = this.srcData.label.formatter;
+            }
 
             r = r.replace( /\{a\}/g, this.data.name || '' );
             r = r.replace( /\{b\}/g, item.name || '' );
